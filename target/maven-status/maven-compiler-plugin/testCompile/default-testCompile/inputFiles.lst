@@ -1,0 +1,6 @@
+/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceWhiteBoxTest.java
+/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceLimiteTest.java
+/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceDecisaoTest.java
+/home/ubuntu/eCommerce/src/test/java/ecommerce/util/TestUtils.java
+/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceBaseTest.java
+/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceParticaoTest.java

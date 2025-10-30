@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarrinhoDeCompras.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trabalho-Testes-Software</a> &gt; <a href="index.source.html" class="el_package">ecommerce.entity</a> &gt; <span class="el_source">CarrinhoDeCompras.java</span></div><h1>CarrinhoDeCompras.java</h1><pre class="source lang-java linenums">package ecommerce.entity;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
+public class CarrinhoDeCompras
+{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne // Um cliente pode ter vários carrinhos
+	@JoinColumn(name = &quot;cliente_id&quot;) // Nome da chave estrangeira
+	private Cliente cliente;
+
+<span class="pc" id="L28">	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // Um carrinho tem vários itens</span>
+	@JoinColumn(name = &quot;carrinho_id&quot;) // Mapeamento de chave estrangeira na tabela ItemCompra
+	private List&lt;ItemCompra&gt; itens = new ArrayList&lt;&gt;();
+
+	private LocalDate data;
+
+	public CarrinhoDeCompras()
+<span class="fc" id="L35">	{</span>
+<span class="fc" id="L36">	}</span>
+
+	public CarrinhoDeCompras(Long id, Cliente cliente, List&lt;ItemCompra&gt; itens, LocalDate data)
+<span class="nc" id="L39">	{</span>
+<span class="nc" id="L40">		this.id = id;</span>
+<span class="nc" id="L41">		this.cliente = cliente;</span>
+<span class="nc" id="L42">		this.itens = itens;</span>
+<span class="nc" id="L43">		this.data = data;</span>
+<span class="nc" id="L44">	}</span>
+
+	// Getters e Setters
+	public Long getId()
+	{
+<span class="nc" id="L49">		return id;</span>
+	}
+
+	public void setId(Long id)
+	{
+<span class="nc" id="L54">		this.id = id;</span>
+<span class="nc" id="L55">	}</span>
+
+	public Cliente getCliente()
+	{
+<span class="nc" id="L59">		return cliente;</span>
+	}
+
+	public void setCliente(Cliente cliente)
+	{
+<span class="nc" id="L64">		this.cliente = cliente;</span>
+<span class="nc" id="L65">	}</span>
+
+	public List&lt;ItemCompra&gt; getItens()
+	{
+<span class="fc" id="L69">		return itens;</span>
+	}
+
+	public void setItens(List&lt;ItemCompra&gt; itens)
+	{
+<span class="fc" id="L74">		this.itens = itens;</span>
+<span class="fc" id="L75">	}</span>
+
+	public LocalDate getData()
+	{
+<span class="nc" id="L79">		return data;</span>
+	}
+
+	public void setData(LocalDate data)
+	{
+<span class="nc" id="L84">		this.data = data;</span>
+<span class="nc" id="L85">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

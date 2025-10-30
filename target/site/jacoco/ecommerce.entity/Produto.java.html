@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Produto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trabalho-Testes-Software</a> &gt; <a href="index.source.html" class="el_package">ecommerce.entity</a> &gt; <span class="el_source">Produto.java</span></div><h1>Produto.java</h1><pre class="source lang-java linenums">package ecommerce.entity;
+
+import java.math.BigDecimal;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Produto
+{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String nome;
+
+	private String descricao;
+
+	/** Preço unitário em reais (R$). */
+	private BigDecimal preco;
+
+	/** Peso físico em quilogramas (kg). */
+	private BigDecimal pesoFisico;
+
+	/** Dimensões em centímetros (cm). */
+	private BigDecimal comprimento;
+	private BigDecimal largura;
+	private BigDecimal altura;
+
+	/** Indica se o produto é frágil. */
+	private Boolean fragil;
+
+	@Enumerated(EnumType.STRING)
+	private TipoProduto tipo;
+
+	public Produto()
+<span class="nc" id="L42">	{</span>
+<span class="nc" id="L43">	}</span>
+
+	public Produto(Long id, String nome, String descricao, BigDecimal preco, BigDecimal pesoFisico,
+			BigDecimal comprimento, BigDecimal largura, BigDecimal altura, Boolean fragil, TipoProduto tipo)
+<span class="fc" id="L47">	{</span>
+<span class="fc" id="L48">		this.id = id;</span>
+<span class="fc" id="L49">		this.nome = nome;</span>
+<span class="fc" id="L50">		this.descricao = descricao;</span>
+<span class="fc" id="L51">		this.preco = preco;</span>
+<span class="fc" id="L52">		this.pesoFisico = pesoFisico;</span>
+<span class="fc" id="L53">		this.comprimento = comprimento;</span>
+<span class="fc" id="L54">		this.largura = largura;</span>
+<span class="fc" id="L55">		this.altura = altura;</span>
+<span class="fc" id="L56">		this.fragil = fragil;</span>
+<span class="fc" id="L57">		this.tipo = tipo;</span>
+<span class="fc" id="L58">	}</span>
+
+	// Getters e Setters
+	public Long getId()
+	{
+<span class="nc" id="L63">		return id;</span>
+	}
+
+	public void setId(Long id)
+	{
+<span class="nc" id="L68">		this.id = id;</span>
+<span class="nc" id="L69">	}</span>
+
+	public String getNome()
+	{
+<span class="nc" id="L73">		return nome;</span>
+	}
+
+	public void setNome(String nome)
+	{
+<span class="nc" id="L78">		this.nome = nome;</span>
+<span class="nc" id="L79">	}</span>
+
+	public String getDescricao()
+	{
+<span class="nc" id="L83">		return descricao;</span>
+	}
+
+	public void setDescricao(String descricao)
+	{
+<span class="nc" id="L88">		this.descricao = descricao;</span>
+<span class="nc" id="L89">	}</span>
+
+	public BigDecimal getPreco()
+	{
+<span class="fc" id="L93">		return preco;</span>
+	}
+
+	public void setPreco(BigDecimal preco)
+	{
+<span class="nc" id="L98">		this.preco = preco;</span>
+<span class="nc" id="L99">	}</span>
+
+	public BigDecimal getPesoFisico()
+	{
+<span class="fc" id="L103">		return pesoFisico;</span>
+	}
+
+	public void setPesoFisico(BigDecimal pesoFisico)
+	{
+<span class="nc" id="L108">		this.pesoFisico = pesoFisico;</span>
+<span class="nc" id="L109">	}</span>
+
+	public BigDecimal getComprimento()
+	{
+<span class="fc" id="L113">		return comprimento;</span>
+	}
+
+	public void setComprimento(BigDecimal comprimento)
+	{
+<span class="nc" id="L118">		this.comprimento = comprimento;</span>
+<span class="nc" id="L119">	}</span>
+
+	public BigDecimal getLargura()
+	{
+<span class="fc" id="L123">		return largura;</span>
+	}
+
+	public void setLargura(BigDecimal largura)
+	{
+<span class="nc" id="L128">		this.largura = largura;</span>
+<span class="nc" id="L129">	}</span>
+
+	public BigDecimal getAltura()
+	{
+<span class="fc" id="L133">		return altura;</span>
+	}
+
+	public void setAltura(BigDecimal altura)
+	{
+<span class="nc" id="L138">		this.altura = altura;</span>
+<span class="nc" id="L139">	}</span>
+
+	public Boolean isFragil()
+	{
+<span class="fc" id="L143">		return fragil;</span>
+	}
+
+	public void setFragil(Boolean fragil)
+	{
+<span class="nc" id="L148">		this.fragil = fragil;</span>
+<span class="nc" id="L149">	}</span>
+
+	public TipoProduto getTipo()
+	{
+<span class="fc" id="L153">		return tipo;</span>
+	}
+
+	public void setTipo(TipoProduto tipo)
+	{
+<span class="nc" id="L158">		this.tipo = tipo;</span>
+<span class="nc" id="L159">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

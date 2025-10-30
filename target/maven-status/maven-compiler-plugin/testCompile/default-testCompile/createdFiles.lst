@@ -1,0 +1,6 @@
+ecommerce/service/CompraServiceBaseTest.class
+ecommerce/util/TestUtils.class
+ecommerce/service/CompraServiceDecisaoTest.class
+ecommerce/service/CompraServiceParticaoTest.class
+ecommerce/service/CompraServiceLimiteTest.class
+ecommerce/service/CompraServiceWhiteBoxTest.class
