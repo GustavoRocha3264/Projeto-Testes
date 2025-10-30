@@ -40,24 +40,24 @@ O método `calcularCustoTotal` é a principal unidade de teste. O grafo de fluxo
 
 A Complexidade Ciclomática foi calculada pela fórmula `CC = P + 1`, onde `P` é o número de predicados (decisões) no código.
 
-| Predicado (Decisão) Descrição |
-| :--- | :--- | :--- |
-| `carrinho == null || carrinho.getItens() == null || carrinho.getItens().isEmpty()` Verifica se o carrinho é nulo ou vazio. |
-| `item.getQuantidade() <= 0` Robustez: Quantidade negativa/zero. |
-| `item.getProduto().getPreco().compareTo(BigDecimal.ZERO) < 0` Robustez: Preço negativo. |
-| `totalItensDoTipo >= 3 && totalItensDoTipo <= 4` Desconto por Tipo (5%). |
-| `totalItensDoTipo >= 5 && totalItensDoTipo <= 7` Desconto por Tipo (10%). |
-| `totalItensDoTipo >= 8` Desconto por Tipo (15%). |
-| `percentualDesconto.compareTo(BigDecimal.ZERO) > 0` Verifica se há desconto por tipo. |
-| `subtotalComDesconto.compareTo(new BigDecimal("500.00")) > 0 && subtotalComDesconto.compareTo(new BigDecimal("1000.00")) <= 0` Desconto por Valor (10%). |
-| `subtotalComDesconto.compareTo(new BigDecimal("1000.00")) > 0` Desconto por Valor (20%). |
-| `pesoTributavel.compareTo(FAIXA_A_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_B_LIMITE) <= 0` Faixa de Frete B. |
-| `pesoTributavel.compareTo(FAIXA_B_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_C_LIMITE) <= 0` Faixa de Frete C. |
-| `pesoTributavel.compareTo(FAIXA_C_LIMITE) > 0` Faixa de Frete D. |
-| `item.getProduto().isFragil()` Aplica taxa de fragilidade. |
-| `multiplicadorRegiao.compareTo(BigDecimal.ZERO) > 0` Verifica se há multiplicador de região. |
-| `tipoCliente == TipoCliente.PRATA` Desconto de Frete (50%). |
-| `tipoCliente == TipoCliente.OURO` Desconto de Frete (100%). |
+| Predicado (Decisão) | Descrição |
+| :--- | :--- |
+| `carrinho == null || carrinho.getItens() == null || carrinho.getItens().isEmpty()` | Verifica se o carrinho é nulo ou vazio. |
+| `item.getQuantidade() <= 0` | Robustez: Quantidade negativa/zero. |
+| `item.getProduto().getPreco().compareTo(BigDecimal.ZERO) < 0` | Robustez: Preço negativo. |
+| `totalItensDoTipo >= 3 && totalItensDoTipo <= 4` | Desconto por Tipo (5%). |
+| `totalItensDoTipo >= 5 && totalItensDoTipo <= 7` | Desconto por Tipo (10%). |
+| `totalItensDoTipo >= 8` | Desconto por Tipo (15%). |
+| `percentualDesconto.compareTo(BigDecimal.ZERO) > 0` | Verifica se há desconto por tipo. |
+| `subtotalComDesconto.compareTo(new BigDecimal("500.00")) > 0 && subtotalComDesconto.compareTo(new BigDecimal("1000.00")) <= 0` | Desconto por Valor (10%). |
+| `subtotalComDesconto.compareTo(new BigDecimal("1000.00")) > 0` | Desconto por Valor (20%). |
+| `pesoTributavel.compareTo(FAIXA_A_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_B_LIMITE) <= 0` | Faixa de Frete B. |
+| `pesoTributavel.compareTo(FAIXA_B_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_C_LIMITE) <= 0` | Faixa de Frete C. |
+| `pesoTributavel.compareTo(FAIXA_C_LIMITE) > 0` | Faixa de Frete D. |
+| `item.getProduto().isFragil()` | Aplica taxa de fragilidade. |
+| `multiplicadorRegiao.compareTo(BigDecimal.ZERO) > 0` | Verifica se há multiplicador de região. |
+| `tipoCliente == TipoCliente.PRATA` | Desconto de Frete (50%). |
+| `tipoCliente == TipoCliente.OURO` | Desconto de Frete (100%). |
 
 **Total de Predicados (P) = 16**
 
