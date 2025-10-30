@@ -63,21 +63,7 @@ A Complexidade Ciclomática foi calculada pela fórmula `CC = P + 1`, onde `P` �
 
 **Complexidade Ciclomática (CC) = 16 + 1 = 17**
 
-### 3.2. Cobertura de Arestas (Branch Coverage)
-
-A cobertura de arestas foi alcançada com sucesso, garantindo que todos os caminhos de decisão (ramos `if/else`, `switch` cases) foram executados.
-
-**Resultado JaCoCo para `CompraService`:**
-
-| Métrica | Perdido | Coberto | Cobertura |
-| :--- | :--- | :--- | :--- |
-| Instruções | 121 | 460 | **79%** |
-| Ramos (Branches) | 0 | 49 | **100%** |
-| Linhas | 9 | 101 | **92%** |
-| Métodos | 3 | 33 | **91%** |
-| Classes | 0 | 8 | **100%** |
-
-### 3.3. Cobertura MC/DC (Modified Condition/Decision Coverage)
+### 3.2. Cobertura MC/DC (Modified Condition/Decision Coverage)
 
 O critério MC/DC foi aplicado à decisão composta mais complexa no cálculo do frete:
 
@@ -98,7 +84,7 @@ O critério MC/DC foi aplicado à decisão composta mais complexa no cálculo do
 
 *Estes testes estão implementados em `CompraServiceWhiteBoxTest.java` nos métodos `calcularCustoTotal_mcdc1_peso7kg`, `calcularCustoTotal_mcdc2_peso5kg` e `calcularCustoTotal_mcdc3_peso10_01kg`.*
 
-### 3.4. Testes de Robustez
+### 3.3. Testes de Robustez
 
 Os testes de robustez foram implementados para garantir o tratamento de entradas inválidas:
 
