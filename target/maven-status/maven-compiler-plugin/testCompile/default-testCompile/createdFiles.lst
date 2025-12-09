@@ -1,6 +1,10 @@
-ecommerce/service/CompraServiceBaseTest.class
+ecommerce/fake/FakeCarrinhoDeComprasService.class
+ecommerce/service/TestFinalizarCompraCenario2$1.class
+ecommerce/service/TestCalcularCustoTotal.class
 ecommerce/util/TestUtils.class
-ecommerce/service/CompraServiceDecisaoTest.class
-ecommerce/service/CompraServiceParticaoTest.class
-ecommerce/service/CompraServiceLimiteTest.class
-ecommerce/service/CompraServiceWhiteBoxTest.class
+ecommerce/service/TestFinalizarCompraCenario2.class
+ecommerce/fake/FakePagamentoExternal.class
+ecommerce/service/TestFinalizarCompraCenario1.class
+ecommerce/service/TestFinalizarCompraCenario2$2.class
+ecommerce/fake/FakeClienteService.class
+ecommerce/fake/FakeEstoqueExternal.class

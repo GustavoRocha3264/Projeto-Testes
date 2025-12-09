@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CompraService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Trabalho-Testes-Software</a> &gt; <a href="index.source.html" class="el_package">ecommerce.service</a> &gt; <span class="el_source">CompraService.java</span></div><h1>CompraService.java</h1><pre class="source lang-java linenums">package ecommerce.service;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CompraService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GustavoMedeirosRocha-PedroHenriqueClementinoDaSilva</a> &gt; <a href="index.source.html" class="el_package">ecommerce.service</a> &gt; <span class="el_source">CompraService.java</span></div><h1>CompraService.java</h1><pre class="source lang-java linenums">package ecommerce.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ import ecommerce.entity.CarrinhoDeCompras;
 import ecommerce.entity.Cliente;
 import ecommerce.entity.ItemCompra;
 import ecommerce.entity.Produto;
-import ecommerce.entity.Regiao;
-import ecommerce.entity.TipoCliente;
-import ecommerce.entity.TipoProduto;
 import ecommerce.external.IEstoqueExternal;
 import ecommerce.external.IPagamentoExternal;
 import javax.transaction.Transactional;
@@ -27,23 +23,17 @@ import javax.transaction.Transactional;
 @Service
 public class CompraService
 {
-	// Constantes
-<span class="fc" id="L31">	private static final BigDecimal FATOR_PESO_CUBICO = new BigDecimal(&quot;6000&quot;);</span>
-<span class="fc" id="L32">	private static final BigDecimal DESCONTO_5_POR_TIPO = new BigDecimal(&quot;0.05&quot;);</span>
-<span class="fc" id="L33">	private static final BigDecimal DESCONTO_10_POR_TIPO = new BigDecimal(&quot;0.10&quot;);</span>
-<span class="fc" id="L34">	private static final BigDecimal DESCONTO_15_POR_TIPO = new BigDecimal(&quot;0.15&quot;);</span>
-<span class="fc" id="L35">	private static final BigDecimal DESCONTO_10_POR_VALOR = new BigDecimal(&quot;0.10&quot;);</span>
-<span class="fc" id="L36">	private static final BigDecimal DESCONTO_20_POR_VALOR = new BigDecimal(&quot;0.20&quot;);</span>
-<span class="fc" id="L37">	private static final BigDecimal LIMITE_DESCONTO_10 = new BigDecimal(&quot;500.00&quot;);</span>
-<span class="fc" id="L38">	private static final BigDecimal LIMITE_DESCONTO_20 = new BigDecimal(&quot;1000.00&quot;);</span>
-<span class="fc" id="L39">	private static final BigDecimal FRETE_TAXA_MINIMA = new BigDecimal(&quot;12.00&quot;);</span>
-<span class="fc" id="L40">	private static final BigDecimal FRETE_TAXA_FRAGIL = new BigDecimal(&quot;5.00&quot;);</span>
-<span class="fc" id="L41">	private static final BigDecimal FAIXA_A_LIMITE = new BigDecimal(&quot;5.00&quot;);</span>
-<span class="fc" id="L42">	private static final BigDecimal FAIXA_B_LIMITE = new BigDecimal(&quot;10.00&quot;);</span>
-<span class="fc" id="L43">	private static final BigDecimal FAIXA_C_LIMITE = new BigDecimal(&quot;50.00&quot;);</span>
-<span class="fc" id="L44">	private static final BigDecimal FAIXA_B_VALOR_KG = new BigDecimal(&quot;2.00&quot;);</span>
-<span class="fc" id="L45">	private static final BigDecimal FAIXA_C_VALOR_KG = new BigDecimal(&quot;4.00&quot;);</span>
-<span class="fc" id="L46">	private static final BigDecimal FAIXA_D_VALOR_KG = new BigDecimal(&quot;7.00&quot;);</span>
+<span class="fc" id="L26">	private static final BigDecimal LIMITE_DESCONTO_10 = new BigDecimal(&quot;500.00&quot;);</span>
+<span class="fc" id="L27">	private static final BigDecimal LIMITE_DESCONTO_20 = new BigDecimal(&quot;1000.00&quot;);</span>
+<span class="fc" id="L28">	private static final BigDecimal DESCONTO_10_POR_VALOR = new BigDecimal(&quot;0.10&quot;);</span>
+<span class="fc" id="L29">	private static final BigDecimal DESCONTO_20_POR_VALOR = new BigDecimal(&quot;0.20&quot;);</span>
+<span class="fc" id="L30">	private static final BigDecimal FRETE_TAXA_FRAGIL = new BigDecimal(&quot;5.00&quot;);</span>
+<span class="fc" id="L31">	private static final BigDecimal FAIXA_A_LIMITE = new BigDecimal(&quot;5.00&quot;);</span>
+<span class="fc" id="L32">	private static final BigDecimal FAIXA_B_LIMITE = new BigDecimal(&quot;10.00&quot;);</span>
+<span class="fc" id="L33">	private static final BigDecimal FAIXA_C_LIMITE = new BigDecimal(&quot;50.00&quot;);</span>
+<span class="fc" id="L34">	private static final BigDecimal FAIXA_B_VALOR_KG = new BigDecimal(&quot;2.00&quot;);</span>
+<span class="fc" id="L35">	private static final BigDecimal FAIXA_C_VALOR_KG = new BigDecimal(&quot;4.00&quot;);</span>
+<span class="fc" id="L36">	private static final BigDecimal FAIXA_D_VALOR_KG = new BigDecimal(&quot;7.00&quot;);</span>
 	
 	private final CarrinhoDeComprasService carrinhoService;
 	private final ClienteService clienteService;
@@ -54,202 +44,129 @@ public class CompraService
 	@Autowired
 	public CompraService(CarrinhoDeComprasService carrinhoService, ClienteService clienteService,
 			IEstoqueExternal estoqueExternal, IPagamentoExternal pagamentoExternal)
-<span class="fc" id="L57">	{</span>
-<span class="fc" id="L58">		this.carrinhoService = carrinhoService;</span>
-<span class="fc" id="L59">		this.clienteService = clienteService;</span>
+<span class="fc" id="L47">	{</span>
+<span class="fc" id="L48">		this.carrinhoService = carrinhoService;</span>
+<span class="fc" id="L49">		this.clienteService = clienteService;</span>
 
-<span class="fc" id="L61">		this.estoqueExternal = estoqueExternal;</span>
-<span class="fc" id="L62">		this.pagamentoExternal = pagamentoExternal;</span>
-<span class="fc" id="L63">	}</span>
+<span class="fc" id="L51">		this.estoqueExternal = estoqueExternal;</span>
+<span class="fc" id="L52">		this.pagamentoExternal = pagamentoExternal;</span>
+<span class="fc" id="L53">	}</span>
 
 	@Transactional
 	public CompraDTO finalizarCompra(Long carrinhoId, Long clienteId)
 	{
-<span class="nc" id="L68">		Cliente cliente = clienteService.buscarPorId(clienteId);</span>
-<span class="nc" id="L69">		CarrinhoDeCompras carrinho = carrinhoService.buscarPorCarrinhoIdEClienteId(carrinhoId, cliente);</span>
+<span class="fc" id="L58">		Cliente cliente = clienteService.buscarPorId(clienteId);</span>
+<span class="fc" id="L59">		CarrinhoDeCompras carrinho = carrinhoService.buscarPorCarrinhoIdEClienteId(carrinhoId, cliente);</span>
 
-<span class="nc" id="L71">		List&lt;Long&gt; produtosIds = carrinho.getItens().stream().map(i -&gt; i.getProduto().getId())</span>
-<span class="nc" id="L72">				.collect(Collectors.toList());</span>
-<span class="nc" id="L73">		List&lt;Long&gt; produtosQtds = carrinho.getItens().stream().map(i -&gt; i.getQuantidade()).collect(Collectors.toList());</span>
+<span class="fc" id="L61">		List&lt;Long&gt; produtosIds = carrinho.getItens().stream().map(i -&gt; i.getProduto().getId())</span>
+<span class="fc" id="L62">				.collect(Collectors.toList());</span>
+<span class="fc" id="L63">		List&lt;Long&gt; produtosQtds = carrinho.getItens().stream().map(i -&gt; i.getQuantidade()).collect(Collectors.toList());</span>
 
-<span class="nc" id="L75">		DisponibilidadeDTO disponibilidade = estoqueExternal.verificarDisponibilidade(produtosIds, produtosQtds);</span>
+<span class="fc" id="L65">		DisponibilidadeDTO disponibilidade = estoqueExternal.verificarDisponibilidade(produtosIds, produtosQtds);</span>
 
-<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (!disponibilidade.disponivel())</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (!disponibilidade.disponivel())</span>
 		{
-<span class="nc" id="L79">			throw new IllegalStateException(&quot;Itens fora de estoque.&quot;);</span>
+<span class="fc" id="L69">			throw new IllegalStateException(&quot;Itens fora de estoque.&quot;);</span>
 		}
 
-<span class="nc" id="L82">		BigDecimal custoTotal = calcularCustoTotal(carrinho, cliente.getRegiao(), cliente.getTipo());</span>
+<span class="fc" id="L72">		BigDecimal custoTotal = calcularCustoTotal(carrinho);</span>
 
-<span class="nc" id="L84">		PagamentoDTO pagamento = pagamentoExternal.autorizarPagamento(cliente.getId(), custoTotal.doubleValue());</span>
+<span class="fc" id="L74">		PagamentoDTO pagamento = pagamentoExternal.autorizarPagamento(cliente.getId(), custoTotal.doubleValue());</span>
 
-<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (!pagamento.autorizado())</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (!pagamento.autorizado())</span>
 		{
-<span class="nc" id="L88">			throw new IllegalStateException(&quot;Pagamento não autorizado.&quot;);</span>
+<span class="fc" id="L78">			throw new IllegalStateException(&quot;Pagamento não autorizado.&quot;);</span>
 		}
 
-<span class="nc" id="L91">		EstoqueBaixaDTO baixaDTO = estoqueExternal.darBaixa(produtosIds, produtosQtds);</span>
+<span class="fc" id="L81">		EstoqueBaixaDTO baixaDTO = estoqueExternal.darBaixa(produtosIds, produtosQtds);</span>
 
-<span class="nc bnc" id="L93" title="All 2 branches missed.">		if (!baixaDTO.sucesso())</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (!baixaDTO.sucesso())</span>
 		{
-<span class="nc" id="L95">			pagamentoExternal.cancelarPagamento(cliente.getId(), pagamento.transacaoId());</span>
-<span class="nc" id="L96">			throw new IllegalStateException(&quot;Erro ao dar baixa no estoque.&quot;);</span>
+<span class="fc" id="L85">			pagamentoExternal.cancelarPagamento(cliente.getId(), pagamento.transacaoId());</span>
+<span class="fc" id="L86">			throw new IllegalStateException(&quot;Erro ao dar baixa no estoque.&quot;);</span>
 		}
 
-<span class="nc" id="L99">		CompraDTO compraDTO = new CompraDTO(true, pagamento.transacaoId(), &quot;Compra finalizada com sucesso.&quot;);</span>
+<span class="fc" id="L89">		CompraDTO compraDTO = new CompraDTO(true, pagamento.transacaoId(), &quot;Compra finalizada com sucesso.&quot;);</span>
 
-<span class="nc" id="L101">		return compraDTO;</span>
+<span class="fc" id="L91">		return compraDTO;</span>
 	} 
 
-	public BigDecimal calcularCustoTotal(CarrinhoDeCompras carrinho, Regiao regiao, TipoCliente tipoCliente)
+	/**
+	 * Versão simplificada do cálculo de custo total.
+	 * Regras:
+	 * 1. Subtotal = soma do preço unitário * quantidade de cada item
+	 * 2. Aplicar desconto por valor total:
+	 *    - total &gt;= 1000,00 → 20% desconto
+	 *    - total &gt;= 500,00 e &lt; 1000,00 → 10% desconto
+	 *    - demais → sem desconto
+	 * 3. Calcular frete por peso físico total (somente peso físico):
+	 *    - 0-5 kg → frete 0
+	 *    - &gt;5 e &lt;=10 kg → R$ 2,00 por kg
+	 *    - &gt;10 e &lt;=50 kg → R$ 4,00 por kg
+	 *    - &gt;50 kg → R$ 7,00 por kg
+	 * 4. Produtos frágeis: adicionar R$ 5,00 POR UNIDADE
+	 * 5. NÃO existe adicional por região nem desconto por fidelidade
+	 * 6. Total = subtotalComDesconto + frete
+	 * 7. Arredondamento final para 2 casas decimais (HALF_UP)
+	 */
+	public BigDecimal calcularCustoTotal(CarrinhoDeCompras carrinho)
 	{
-<span class="fc bfc" id="L106" title="All 6 branches covered.">		if (carrinho == null || carrinho.getItens() == null || carrinho.getItens().isEmpty()) {</span>
-<span class="fc" id="L107">			return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);</span>
+<span class="fc bfc" id="L114" title="All 6 branches covered.">		if (carrinho == null || carrinho.getItens() == null || carrinho.getItens().isEmpty()) {</span>
+<span class="fc" id="L115">			return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);</span>
 		}
 		
-			// 1. Subtotal dos itens
-<span class="fc" id="L111">			BigDecimal subtotal = carrinho.getItens().stream()</span>
-<span class="fc" id="L112">					.map(item -&gt; {</span>
-<span class="fc bfc" id="L113" title="All 2 branches covered.">						if (item.getQuantidade() &lt;= 0) {</span>
-<span class="fc" id="L114">							throw new IllegalArgumentException(&quot;Quantidade do item não pode ser zero ou negativa.&quot;);</span>
-						}
-<span class="fc bfc" id="L116" title="All 2 branches covered.">						if (item.getProduto().getPreco().compareTo(BigDecimal.ZERO) &lt; 0) {</span>
-<span class="fc" id="L117">							throw new IllegalArgumentException(&quot;Preço do produto não pode ser negativo.&quot;);</span>
-						}
-<span class="fc" id="L119">						return item.getProduto().getPreco().multiply(new BigDecimal(item.getQuantidade()));</span>
-					})
-<span class="fc" id="L121">					.reduce(BigDecimal.ZERO, BigDecimal::add);</span>
+		// 1. Calcular subtotal
+<span class="fc" id="L119">		BigDecimal subtotal = BigDecimal.ZERO;</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		for (ItemCompra item : carrinho.getItens()) {</span>
+<span class="fc" id="L121">			BigDecimal precoUnitario = item.getProduto().getPreco();</span>
+<span class="fc" id="L122">			Long quantidade = item.getQuantidade();</span>
+<span class="fc" id="L123">			subtotal = subtotal.add(precoUnitario.multiply(new BigDecimal(quantidade)));</span>
+<span class="fc" id="L124">		}</span>
 		
-		// Variável para o subtotal APÓS descontos
-<span class="fc" id="L124">		BigDecimal subtotalComDesconto = subtotal;</span>
+		// 2. Aplicar desconto por valor total
+<span class="fc" id="L127">		BigDecimal desconto = BigDecimal.ZERO;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (subtotal.compareTo(LIMITE_DESCONTO_20) &gt;= 0) {</span>
+<span class="fc" id="L129">			desconto = subtotal.multiply(DESCONTO_20_POR_VALOR);</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		} else if (subtotal.compareTo(LIMITE_DESCONTO_10) &gt;= 0) {</span>
+<span class="fc" id="L131">			desconto = subtotal.multiply(DESCONTO_10_POR_VALOR);</span>
+		}
 		
-		// 2. Desconto por múltiplos itens de mesmo tipo
-<span class="fc" id="L127">		Map&lt;TipoProduto, Long&gt; contagemPorTipo = carrinho.getItens().stream()</span>
-<span class="fc" id="L128">				.collect(Collectors.groupingBy(item -&gt; item.getProduto().getTipo(),</span>
-<span class="fc" id="L129">						Collectors.summingLong(ItemCompra::getQuantidade)));</span>
+<span class="fc" id="L134">		BigDecimal subtotalComDesconto = subtotal.subtract(desconto);</span>
 		
-<span class="fc" id="L131">		BigDecimal descontoPorTipo = BigDecimal.ZERO;</span>
+		// 3. Calcular frete por peso físico total
+<span class="fc" id="L137">		BigDecimal pesoTotal = BigDecimal.ZERO;</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for (ItemCompra item : carrinho.getItens()) {</span>
+<span class="fc" id="L139">			Produto produto = item.getProduto();</span>
+<span class="fc" id="L140">			Long quantidade = item.getQuantidade();</span>
+<span class="fc" id="L141">			BigDecimal pesoFisico = produto.getPesoFisico();</span>
+<span class="fc" id="L142">			pesoTotal = pesoTotal.add(pesoFisico.multiply(new BigDecimal(quantidade)));</span>
+<span class="fc" id="L143">		}</span>
 		
-<span class="fc bfc" id="L133" title="All 2 branches covered.">		for (Map.Entry&lt;TipoProduto, Long&gt; entry : contagemPorTipo.entrySet()) {</span>
-<span class="fc" id="L134">			TipoProduto tipo = entry.getKey();</span>
-<span class="fc" id="L135">			Long totalItensDoTipo = entry.getValue();</span>
-			
-<span class="fc" id="L137">			BigDecimal percentualDesconto = BigDecimal.ZERO;</span>
-<span class="fc bfc" id="L138" title="All 4 branches covered.">			if (totalItensDoTipo &gt;= 3 &amp;&amp; totalItensDoTipo &lt;= 4) {</span>
-<span class="fc" id="L139">				percentualDesconto = DESCONTO_5_POR_TIPO;</span>
-<span class="fc bfc" id="L140" title="All 4 branches covered.">			} else if (totalItensDoTipo &gt;= 5 &amp;&amp; totalItensDoTipo &lt;= 7) {</span>
-<span class="fc" id="L141">				percentualDesconto = DESCONTO_10_POR_TIPO;</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">			} else if (totalItensDoTipo &gt;= 8) {</span>
-<span class="fc" id="L143">				percentualDesconto = DESCONTO_15_POR_TIPO;</span>
+<span class="fc" id="L145">		BigDecimal frete = BigDecimal.ZERO;</span>
+<span class="fc bfc" id="L146" title="All 4 branches covered.">		if (pesoTotal.compareTo(FAIXA_A_LIMITE) &gt; 0 &amp;&amp; pesoTotal.compareTo(FAIXA_B_LIMITE) &lt;= 0) {</span>
+<span class="fc" id="L147">			frete = pesoTotal.multiply(FAIXA_B_VALOR_KG);</span>
+<span class="fc bfc" id="L148" title="All 4 branches covered.">		} else if (pesoTotal.compareTo(FAIXA_B_LIMITE) &gt; 0 &amp;&amp; pesoTotal.compareTo(FAIXA_C_LIMITE) &lt;= 0) {</span>
+<span class="fc" id="L149">			frete = pesoTotal.multiply(FAIXA_C_VALOR_KG);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		} else if (pesoTotal.compareTo(FAIXA_C_LIMITE) &gt; 0) {</span>
+<span class="fc" id="L151">			frete = pesoTotal.multiply(FAIXA_D_VALOR_KG);</span>
+		}
+		
+		// 4. Adicionar taxa de produtos frágeis
+<span class="fc" id="L155">		BigDecimal taxaFragil = BigDecimal.ZERO;</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">		for (ItemCompra item : carrinho.getItens()) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">			if (item.getProduto().isFragil()) {</span>
+<span class="fc" id="L158">				Long quantidade = item.getQuantidade();</span>
+<span class="fc" id="L159">				taxaFragil = taxaFragil.add(FRETE_TAXA_FRAGIL.multiply(new BigDecimal(quantidade)));</span>
 			}
-			
-<span class="fc bfc" id="L146" title="All 2 branches covered.">			if (percentualDesconto.compareTo(BigDecimal.ZERO) &gt; 0) {</span>
-				// Calcula o subtotal APENAS para os itens deste tipo
-<span class="fc" id="L148">				BigDecimal subtotalDoTipo = carrinho.getItens().stream()</span>
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">						.filter(item -&gt; item.getProduto().getTipo() == tipo)</span>
-<span class="fc" id="L150">						.map(item -&gt; item.getProduto().getPreco().multiply(new BigDecimal(item.getQuantidade())))</span>
-<span class="fc" id="L151">						.reduce(BigDecimal.ZERO, BigDecimal::add);</span>
-				
-<span class="fc" id="L153">				descontoPorTipo = descontoPorTipo.add(subtotalDoTipo.multiply(percentualDesconto));</span>
-			}
-<span class="fc" id="L155">		}</span>
+<span class="fc" id="L161">		}</span>
 		
-<span class="fc" id="L157">		subtotalComDesconto = subtotalComDesconto.subtract(descontoPorTipo);</span>
+<span class="fc" id="L163">		frete = frete.add(taxaFragil);</span>
 		
-		// 3. Desconto por valor de carrinho
-<span class="fc" id="L160">		BigDecimal descontoPorValor = BigDecimal.ZERO;</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">		if (subtotalComDesconto.compareTo(LIMITE_DESCONTO_20) &gt; 0) {</span>
-<span class="fc" id="L162">			descontoPorValor = subtotalComDesconto.multiply(DESCONTO_20_POR_VALOR);</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">		} else if (subtotalComDesconto.compareTo(LIMITE_DESCONTO_10) &gt; 0) {</span>
-<span class="fc" id="L164">			descontoPorValor = subtotalComDesconto.multiply(DESCONTO_10_POR_VALOR);</span>
-		}
+		// 6. Total = subtotalComDesconto + frete
+<span class="fc" id="L166">		BigDecimal total = subtotalComDesconto.add(frete);</span>
 		
-<span class="fc" id="L167">		subtotalComDesconto = subtotalComDesconto.subtract(descontoPorValor);</span>
-		
-		// 4. Cálculo do frete base (por peso total)
-<span class="fc" id="L170">		BigDecimal pesoTotal = BigDecimal.ZERO;</span>
-<span class="fc" id="L171">		BigDecimal taxaFragilTotal = BigDecimal.ZERO;</span>
-		
-<span class="fc bfc" id="L173" title="All 2 branches covered.">		for (ItemCompra item : carrinho.getItens()) {</span>
-<span class="fc" id="L174">			Produto produto = item.getProduto();</span>
-<span class="fc" id="L175">			Long quantidade = item.getQuantidade();</span>
-			
-			// Cálculo do Peso Cúbico: (C × L × A) / 6000
-<span class="fc" id="L178">			BigDecimal pesoCubico = produto.getComprimento()</span>
-<span class="fc" id="L179">					.multiply(produto.getLargura())</span>
-<span class="fc" id="L180">					.multiply(produto.getAltura())</span>
-<span class="fc" id="L181">					.divide(FATOR_PESO_CUBICO, 2, RoundingMode.HALF_UP); // Arredondamento para 2 casas decimais</span>
-			
-			// Peso Tributável: max(peso_físico, peso_cúbico)
-<span class="fc" id="L184">			BigDecimal pesoTributavelUnitario = produto.getPesoFisico().max(pesoCubico);</span>
-			
-			// Peso Total da Compra: soma dos pesos tributáveis de todos os itens * quantidades
-<span class="fc" id="L187">			pesoTotal = pesoTotal.add(pesoTributavelUnitario.multiply(new BigDecimal(quantidade)));</span>
-			
-			// Taxa de manuseio especial para itens frágeis
-<span class="fc bfc" id="L190" title="All 2 branches covered.">			if (produto.isFragil()) {</span>
-<span class="fc" id="L191">				taxaFragilTotal = taxaFragilTotal.add(FRETE_TAXA_FRAGIL.multiply(new BigDecimal(quantidade)));</span>
-			}
-<span class="fc" id="L193">		}</span>
-		
-		// Frete Base por Peso
-<span class="fc" id="L196">		BigDecimal freteBase = BigDecimal.ZERO;</span>
-<span class="fc" id="L197">		BigDecimal valorPorKg = BigDecimal.ZERO;</span>
-		
-<span class="fc bfc" id="L199" title="All 2 branches covered.">		if (pesoTotal.compareTo(FAIXA_A_LIMITE) &lt;= 0) {</span>
-<span class="fc" id="L200">			valorPorKg = BigDecimal.ZERO; // Isento</span>
-<span class="fc bfc" id="L201" title="All 2 branches covered.">		} else if (pesoTotal.compareTo(FAIXA_B_LIMITE) &lt;= 0) {</span>
-<span class="fc" id="L202">			valorPorKg = FAIXA_B_VALOR_KG;</span>
-<span class="fc bfc" id="L203" title="All 2 branches covered.">		} else if (pesoTotal.compareTo(FAIXA_C_LIMITE) &lt;= 0) {</span>
-<span class="fc" id="L204">			valorPorKg = FAIXA_C_VALOR_KG;</span>
-		} else { // peso &gt; 50.00
-<span class="fc" id="L206">			valorPorKg = FAIXA_D_VALOR_KG;</span>
-		}
-		
-<span class="fc bfc" id="L209" title="All 2 branches covered.">		if (valorPorKg.compareTo(BigDecimal.ZERO) &gt; 0) {</span>
-			// Frete = (Peso Total * Valor por Kg) + Taxa Mínima (R$ 12,00)
-<span class="fc" id="L211">			freteBase = pesoTotal.multiply(valorPorKg).add(FRETE_TAXA_MINIMA);</span>
-		}
-		
-		// Soma taxa frágil
-<span class="fc" id="L215">		freteBase = freteBase.add(taxaFragilTotal);</span>
-		
-		// Multiplica pelo fator da região
-<span class="fc" id="L218">		BigDecimal multiplicadorRegiao = getMultiplicadorRegiao(regiao);</span>
-<span class="fc" id="L219">		BigDecimal freteComRegiao = freteBase.multiply(multiplicadorRegiao);</span>
-		
-		// 5. Benefício de nível do cliente (só sobre o frete)
-<span class="fc" id="L222">		BigDecimal freteFinal = freteComRegiao;</span>
-		
-<span class="fc bfc" id="L224" title="All 2 branches covered.">		if (tipoCliente == TipoCliente.OURO) {</span>
-<span class="fc" id="L225">			freteFinal = BigDecimal.ZERO; // 100% de desconto</span>
-<span class="fc bfc" id="L226" title="All 2 branches covered.">		} else if (tipoCliente == TipoCliente.PRATA) {</span>
-<span class="fc" id="L227">			freteFinal = freteComRegiao.multiply(new BigDecimal(&quot;0.50&quot;)); // 50% de desconto</span>
-		}
-		
-		// 6. Total da compra
-<span class="fc" id="L231">		BigDecimal total = subtotalComDesconto.add(freteFinal);</span>
-		
-		// Arredondamento final (half-up)
-<span class="fc" id="L234">		return total.setScale(2, RoundingMode.HALF_UP);</span>
+		// 7. Arredondamento final para 2 casas decimais
+<span class="fc" id="L169">		return total.setScale(2, RoundingMode.HALF_UP);</span>
 	}
-	
-		private BigDecimal getMultiplicadorRegiao(Regiao regiao) {
-<span class="pc bpc" id="L238" title="2 of 6 branches missed.">			switch (regiao) {</span>
-				case SUDESTE:
-<span class="fc" id="L240">					return new BigDecimal(&quot;1.00&quot;);</span>
-				case SUL:
-<span class="fc" id="L242">					return new BigDecimal(&quot;1.05&quot;);</span>
-				case NORDESTE:
-<span class="fc" id="L244">					return new BigDecimal(&quot;1.10&quot;);</span>
-				case CENTRO_OESTE:
-<span class="nc" id="L246">					return new BigDecimal(&quot;1.20&quot;);</span>
-				case NORTE:
-<span class="fc" id="L248">					return new BigDecimal(&quot;1.30&quot;);</span>
-				default:
-<span class="nc" id="L250">					return new BigDecimal(&quot;1.00&quot;);</span>
-			}
-		}
 }
-
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

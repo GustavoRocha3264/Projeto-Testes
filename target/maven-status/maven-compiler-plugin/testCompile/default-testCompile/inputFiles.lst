@@ -1,6 +1,8 @@
-/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceWhiteBoxTest.java
-/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceLimiteTest.java
-/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceDecisaoTest.java
-/home/ubuntu/eCommerce/src/test/java/ecommerce/util/TestUtils.java
-/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceBaseTest.java
-/home/ubuntu/eCommerce/src/test/java/ecommerce/service/CompraServiceParticaoTest.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/service/TestFinalizarCompraCenario2.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/util/TestUtils.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/service/TestFinalizarCompraCenario1.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/fake/FakeClienteService.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/fake/FakePagamentoExternal.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/service/TestCalcularCustoTotal.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/fake/FakeCarrinhoDeComprasService.java
+/home/gustavo/IdeaProjects/aluno1-aluno2-modificado/Trabalho-Testes-Software/src/test/java/ecommerce/fake/FakeEstoqueExternal.java

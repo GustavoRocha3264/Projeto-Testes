@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: ecommerce.service.TestFinalizarCompraCenario2
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 s - in ecommerce.service.TestFinalizarCompraCenario2
