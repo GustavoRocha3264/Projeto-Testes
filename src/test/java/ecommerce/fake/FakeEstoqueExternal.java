@@ -7,10 +7,6 @@ import ecommerce.dto.DisponibilidadeDTO;
 import ecommerce.dto.EstoqueBaixaDTO;
 import ecommerce.external.IEstoqueExternal;
 
-/**
- * Implementação fake do serviço de estoque externo para testes.
- * Permite configurar o comportamento esperado.
- */
 public class FakeEstoqueExternal implements IEstoqueExternal {
     
     private boolean disponivel = true;

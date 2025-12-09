@@ -6,10 +6,6 @@ import java.util.Map;
 import ecommerce.entity.CarrinhoDeCompras;
 import ecommerce.entity.Cliente;
 
-/**
- * Implementação fake do CarrinhoDeComprasService para testes.
- * Simula persistência em memória.
- */
 public class FakeCarrinhoDeComprasService {
     
     private Map<Long, CarrinhoDeCompras> carrinhos = new HashMap<>();

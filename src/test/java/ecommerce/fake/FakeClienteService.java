@@ -5,10 +5,6 @@ import java.util.Map;
 
 import ecommerce.entity.Cliente;
 
-/**
- * Implementação fake do ClienteService para testes.
- * Simula persistência em memória.
- */
 public class FakeClienteService {
     
     private Map<Long, Cliente> clientes = new HashMap<>();

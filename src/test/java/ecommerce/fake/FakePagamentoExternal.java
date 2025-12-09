@@ -3,10 +3,6 @@ package ecommerce.fake;
 import ecommerce.dto.PagamentoDTO;
 import ecommerce.external.IPagamentoExternal;
 
-/**
- * Implementação fake do serviço de pagamento externo para testes.
- * Permite configurar o comportamento esperado.
- */
 public class FakePagamentoExternal implements IPagamentoExternal {
     
     private boolean autorizado = true;
