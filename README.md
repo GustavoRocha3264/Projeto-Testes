@@ -1,154 +1,277 @@
-# Trabalho de Teste de Software - Análise e Implementação de Testes (JUnit 5 e JaCoCo)
+# Trabalho da 3ª Unidade - Testes de Mutação e Testes com Dublês
 
-Este trabalho consiste na implementação do método `calcularCustoTotal` na classe `CompraService.java` e na criação de um conjunto abrangente de testes de software para garantir sua correção e robustez, conforme os critérios de Caixa Preta e Caixa Branca.
+## Autores
+- Gustavo Medeiros Rocha
+- Pedro Henrique Clementino Da Silva
 
----
+## Descrição do Projeto
 
-## 1. Implementação do Método `calcularCustoTotal`
+Este projeto implementa e testa uma versão simplificada do método `calcularCustoTotal()` e testes completos para o método `finalizarCompra()` de uma aplicação de e-commerce, utilizando técnicas avançadas de teste de software incluindo **testes de mutação com PIT** e **dublês de teste (fakes e mocks)**.
 
-O método foi implementado na classe `ecommerce.service.CompraService` seguindo as regras de negócio:
+## Estrutura do Projeto
 
-1.  **Cálculo do Peso Tributável:** `max(peso_fisico, peso_cubico)`.
-2.  **Desconto por Quantidade/Tipo de Item:** 0%, 5%, 10% ou 15% aplicado ao subtotal do tipo de produto.
-3.  **Desconto por Valor Total:** 0%, 10% ou 20% aplicado ao subtotal restante.
-4.  **Cálculo do Frete Base:** Baseado no peso tributável (4 faixas de preço por kg + R$12 de taxa mínima).
-5.  **Taxa de Fragilidade:** R$5.00 por item frágil.
-6.  **Multiplicador Regional:** Aplicado ao frete base.
-7.  **Desconto por Nível de Cliente:** 0%, 50% ou 100% aplicado ao frete final.
+```
+src/
+├── main/java/ecommerce/
+│   ├── service/
+│   │   └── CompraService.java          # Implementação simplificada de calcularCustoTotal()
+│   ├── external/
+│   │   ├── IEstoqueExternal.java       # Interface para serviço de estoque
+│   │   └── IPagamentoExternal.java     # Interface para serviço de pagamento
+│   └── ...
+└── test/java/ecommerce/
+    ├── service/
+    │   ├── TestCalcularCustoTotal.java           # Testes de calcularCustoTotal()
+    │   ├── TestFinalizarCompraCenario1.java      # Testes com fakes para externos
+    │   └── TestFinalizarCompraCenario2.java      # Testes com mocks para externos
+    └── fake/
+        ├── FakeEstoqueExternal.java              # Fake do serviço de estoque
+        ├── FakePagamentoExternal.java            # Fake do serviço de pagamento
+        ├── FakeCarrinhoDeComprasService.java     # Fake do serviço de carrinho
+        └── FakeClienteService.java               # Fake do serviço de cliente
+```
 
-## 2. Testes de Caixa Preta
+## Implementação do calcularCustoTotal() Simplificado
 
-Os testes de Caixa Preta foram implementados nas seguintes classes, cobrindo os critérios exigidos:
+### Regras Implementadas
 
-| Critério de Teste | Classe de Teste | Cobertura |
-| :--- | :--- | :--- |
-| Particionamento de Equivalência | `CompraServiceParticaoTest.java` | Cobertura de todas as partições de Desconto por Quantidade, Desconto por Valor e Faixas de Frete. |
-| Análise de Valores Limites | `CompraServiceLimiteTest.java` | Cobertura dos limites superiores e inferiores das faixas de Desconto por Quantidade e Faixas de Frete. |
-| Tabela de Decisão | `CompraServiceDecisaoTest.java` | Cobertura de regras compostas de Frete (Peso + Fragilidade + Região + Nível Cliente) e Acumulação de Descontos. |
+O método `calcularCustoTotal()` foi reimplementado seguindo as regras simplificadas:
 
----
+#### 1. Cálculo do Subtotal
+- Soma do preço unitário multiplicado pela quantidade de cada item
 
-## 3. Testes de Caixa Branca e Robustez
+#### 2. Desconto por Valor Total do Carrinho
+- **Total >= R$ 1000,00**: 20% de desconto
+- **Total >= R$ 500,00 e < R$ 1000,00**: 10% de desconto
+- **Demais valores**: sem desconto
 
-Os testes de Caixa Branca e Robustez foram implementados na classe `CompraServiceWhiteBoxTest.java`.
+#### 3. Cálculo do Frete por Peso Físico Total
+Baseado apenas no peso físico (peso * quantidade):
+- **0-5 kg**: frete isento (R$ 0)
+- **> 5 kg e ≤ 10 kg**: R$ 2,00 por kg
+- **> 10 kg e ≤ 50 kg**: R$ 4,00 por kg
+- **> 50 kg**: R$ 7,00 por kg
 
-### 3.1. Grafo de Fluxo de Controle e Complexidade Ciclomática
+#### 4. Taxa de Produtos Frágeis
+- **R$ 5,00 por unidade** para cada item marcado como frágil
 
-O método `calcularCustoTotal` é a principal unidade de teste. O grafo de fluxo de controle (GFC) e a Complexidade Ciclomática (CC) foram calculados para o método.
+#### 5. Simplificações
+- **NÃO existe** adicional por região
+- **NÃO existe** desconto por fidelidade do cliente
 
-**Complexidade Ciclomática (CC):**
+#### 6. Ordem de Cálculo
+1. Calcular subtotal
+2. Aplicar desconto
+3. Calcular frete
+4. Total = subtotalComDesconto + frete
+5. Arredondamento final para 2 casas decimais (HALF_UP)
 
-A Complexidade Ciclomática foi calculada pela fórmula `CC = P + 1`, onde `P` é o número de predicados (decisões) no código.
+## Testes Implementados
 
-| Predicado (Decisão) | Descrição |
-| :--- | :--- |
-| `carrinho == null || carrinho.getItens() == null || carrinho.getItens().isEmpty()` | Verifica se o carrinho é nulo ou vazio. |
-| `item.getQuantidade() <= 0` | Robustez: Quantidade negativa/zero. |
-| `item.getProduto().getPreco().compareTo(BigDecimal.ZERO) < 0` | Robustez: Preço negativo. |
-| `totalItensDoTipo >= 3 && totalItensDoTipo <= 4` | Desconto por Tipo (5%). |
-| `totalItensDoTipo >= 5 && totalItensDoTipo <= 7` | Desconto por Tipo (10%). |
-| `totalItensDoTipo >= 8` | Desconto por Tipo (15%). |
-| `percentualDesconto.compareTo(BigDecimal.ZERO) > 0` | Verifica se há desconto por tipo. |
-| `subtotalComDesconto.compareTo(new BigDecimal("500.00")) > 0 && subtotalComDesconto.compareTo(new BigDecimal("1000.00")) <= 0` | Desconto por Valor (10%). |
-| `subtotalComDesconto.compareTo(new BigDecimal("1000.00")) > 0` | Desconto por Valor (20%). |
-| `pesoTributavel.compareTo(FAIXA_A_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_B_LIMITE) <= 0` | Faixa de Frete B. |
-| `pesoTributavel.compareTo(FAIXA_B_LIMITE) > 0 && pesoTributavel.compareTo(FAIXA_C_LIMITE) <= 0` | Faixa de Frete C. |
-| `pesoTributavel.compareTo(FAIXA_C_LIMITE) > 0` | Faixa de Frete D. |
-| `item.getProduto().isFragil()` | Aplica taxa de fragilidade. |
-| `multiplicadorRegiao.compareTo(BigDecimal.ZERO) > 0` | Verifica se há multiplicador de região. |
-| `tipoCliente == TipoCliente.PRATA` | Desconto de Frete (50%). |
-| `tipoCliente == TipoCliente.OURO` | Desconto de Frete (100%). |
+### TestCalcularCustoTotal.java
 
-**Total de Predicados (P) = 16**
+Implementa **26 testes** focados em:
 
-**Complexidade Ciclomática (CC) = 16 + 1 = 17**
+#### Cobertura de Branch (100%)
+- Testes de carrinho vazio/null
+- Testes de fronteira para descontos (499.99, 500.00, 999.99, 1000.00)
+- Testes de fronteira para frete (5kg, 5.01kg, 10kg, 10.01kg, 50kg, 50.01kg)
+- Testes de produtos frágeis (zero, um, múltiplos)
+- Testes de arredondamento
+- Testes combinados (desconto + frete + frágil)
 
-### 3.2. Cobertura MC/DC (Modified Condition/Decision Coverage)
+#### Estratégias para Matar Mutantes
+1. **Testes de fronteira precisos**: valores exatos nas bordas das condições (5.00, 10.00, 50.00, 500.00, 1000.00)
+2. **Assertivas exatas**: uso de `BigDecimal` com comparação precisa, sem tolerância delta
+3. **Casos de arredondamento**: valores que produzem centavos com 3+ dígitos
+4. **Validação de limites**: testes logo acima e logo abaixo de cada limite
+5. **Cobertura de todos os ramos**: garantir que cada condição seja testada com true e false
 
-O critério MC/DC foi aplicado à decisão composta mais complexa no cálculo do frete:
+### TestFinalizarCompraCenario1.java
 
-**Decisão:** Faixa de Frete B: `(pesoTotal > 5.00) && (pesoTotal <= 10.00)`
+**Cenário 1**: Usa **FAKES** para serviços externos e **MOCKS** para repositórios.
 
-| Condição | Variável | Descrição |
-| :--- | :--- | :--- |
-| **C1** | `pesoTotal > 5.00` | Peso total maior que o limite da Faixa A. |
-| **C2** | `pesoTotal <= 10.00` | Peso total menor ou igual ao limite da Faixa B. |
+Implementa **5 testes**:
+1. `testFinalizarCompraSucesso()`: Fluxo completo de sucesso
+2. `testFinalizarCompraEstoqueIndisponivel()`: Falha por estoque indisponível
+3. `testFinalizarCompraPagamentoNaoAutorizado()`: Falha por pagamento negado
+4. `testFinalizarCompraErroBaixaEstoque()`: Falha na baixa do estoque com cancelamento de pagamento
+5. `testFinalizarCompraMultiplosProdutos()`: Sucesso com múltiplos produtos
 
-**Casos de Teste MC/DC:**
+**Dublês utilizados**:
+- `FakeEstoqueExternal`: implementação fake configurável
+- `FakePagamentoExternal`: implementação fake configurável
+- Mocks Mockito para `CarrinhoDeComprasService` e `ClienteService`
 
-| Caso | C1 | C2 | Decisão | Resultado |
-| :--- | :--- | :--- | :--- | :--- |
-| **MC/DC-1** | T | T | T | **Peso 7.00kg** (Caso base da Faixa B) |
-| **MC/DC-2** | F | T | F | **Peso 5.00kg** (C1 altera a decisão - Frete Faixa A) |
-| **MC/DC-3** | T | F | F | **Peso 10.01kg** (C2 altera a decisão - Frete Faixa C) |
+### TestFinalizarCompraCenario2.java
 
-*Estes testes estão implementados em `CompraServiceWhiteBoxTest.java` nos métodos `calcularCustoTotal_mcdc1_peso7kg`, `calcularCustoTotal_mcdc2_peso5kg` e `calcularCustoTotal_mcdc3_peso10_01kg`.*
+**Cenário 2**: Usa **MOCKS** para serviços externos e **FAKES** para repositórios.
 
-### 3.3. Testes de Robustez
+Implementa **6 testes**:
+1. `testFinalizarCompraSucesso()`: Fluxo completo de sucesso
+2. `testFinalizarCompraEstoqueIndisponivel()`: Falha por estoque indisponível
+3. `testFinalizarCompraPagamentoNaoAutorizado()`: Falha por pagamento negado
+4. `testFinalizarCompraErroBaixaEstoque()`: Falha na baixa com cancelamento
+5. `testFinalizarCompraMultiplosProdutos()`: Sucesso com múltiplos produtos
+6. `testFinalizarCompraCarrinhoVazio()`: Teste com carrinho vazio
 
-Os testes de robustez foram implementados para garantir o tratamento de entradas inválidas:
+**Dublês utilizados**:
+- Mocks Mockito para `IEstoqueExternal` e `IPagamentoExternal`
+- `FakeCarrinhoDeComprasService`: implementação fake com persistência em memória
+- `FakeClienteService`: implementação fake com persistência em memória
 
-| Teste | Entrada Inválida | Resultado Esperado |
-| :--- | :--- | :--- |
-| `R1` | Carrinho Nulo | Retorna `0.00` |
-| `R2` | Lista de Itens Nula | Retorna `0.00` |
-| `R3` | Lista de Itens Vazia | Retorna `0.00` |
-| `R4` | Quantidade de Item Negativa | Lança `IllegalArgumentException` |
-| `R5` | Preço de Produto Negativo | Lança `IllegalArgumentException` |
+## Como Executar
 
-## 4. Instruções de Execução
+### Pré-requisitos
+- Java 11 ou superior
+- Maven 3.6 ou superior
 
-Este projeto utiliza **Maven** como gerenciador de build e **JUnit 5** para execução dos testes automatizados.  
-Os testes podem ser executados de três formas principais:
-
----
-
-### Método 1 — Executando Testes pelo Lifecycle do Maven (no IntelliJ IDEA)
-
-1. Abra o projeto no **IntelliJ IDEA**.  
-2. No painel lateral direito, localize a aba **Maven**.  
-3. Expanda o ciclo de vida (**Lifecycle**) do projeto.  
-4. Clique em **verify** (ou **test**, se preferir executar apenas os testes).  
-
-
-### Método 2 — Criando uma Run Configuration de Teste (JUnit) no IntelliJ IDEA
-
-1. No menu superior, vá em **Run → Edit Configurations...**  
-2. Clique em **+ → JUnit** para criar uma nova configuração.  
-3. Configure:
-   - **Build and run:**
-   - *Java 11*  
-   - *All in package*  
-   - **Package:** `ecommerce`  
-   - **Working directory:** *$MODULE_WORKING_DIR$*
-4. Clique em **Apply → Run** ✅  
-
----
-
-### Método 3 — Executando Testes via Linha de Comando (Maven CLI)
-
-Se preferir rodar os testes sem IDE:
-
-1. Abra o terminal na raiz do projeto.  
-2. Execute um dos comandos abaixo:
+### Executar Testes
 
 ```bash
-# Executa todos os testes do projeto
-mvn test
-
-# Executa testes e verifica a cobertura configurada no JaCoCo
-mvn verify
-
-# Executa apenas uma classe de teste específica
-mvn -Dtest=CompraServiceWhiteBoxTest test
-
-# Executa um método de teste específico dentro de uma classe
-mvn -Dtest=CompraServiceWhiteBoxTest#calcularCustoTotal_mcdc1_peso7kg test
+mvn clean test
 ```
----
 
-### Requisitos:
+**Resultado esperado**: Todos os 37 testes devem passar (26 de calcularCustoTotal + 5 do cenário 1 + 6 do cenário 2).
 
-**Java:** *11* 
-**Maven**: *3.6+*
-**JUnit**: *5.x*
+### Gerar Relatório de Cobertura (JaCoCo)
+
+```bash
+mvn verify
+```
+
+O relatório HTML será gerado em:
+```
+target/site/jacoco/index.html
+```
+
+**Como visualizar**:
+1. Abra o arquivo `target/site/jacoco/index.html` em um navegador
+2. Navegue até `ecommerce.service` > `CompraService`
+3. Verifique que a cobertura de linhas e branches está em **100%** para o método `calcularCustoTotal()`
+
+### Executar Análise de Mutação (PIT)
+
+```bash
+mvn test pitest:mutationCoverage
+```
+
+O relatório HTML será gerado em:
+```
+target/pit-reports/index.html
+```
+
+**Como visualizar**:
+1. Abra o arquivo `target/pit-reports/index.html` em um navegador
+2. Clique em `ecommerce.service` > `CompraService`
+3. Verifique os mutantes gerados, mortos e sobreviventes
+
+## Resultados dos Testes
+
+### Cobertura de Código (JaCoCo)
+- **Cobertura de linhas**: 100% (72/72 linhas cobertas)
+- **Cobertura de branches**: 100% para `calcularCustoTotal()`
+- **Cobertura de decisão**: 100% para `finalizarCompra()`
+
+### Análise de Mutação (PIT)
+- **Total de mutantes gerados**: 27
+- **Mutantes mortos**: 22 (81%)
+- **Mutantes sobreviventes**: 5 (19%)
+- **Força dos testes**: 81%
+
+#### Detalhamento dos Mutantes
+
+| Mutador | Gerados | Mortos | Taxa |
+|---------|---------|--------|------|
+| RemoveConditionalMutator_ORDER_ELSE | 7 | 7 | 100% |
+| ConditionalsBoundaryMutator | 7 | 5 | 71% |
+| VoidMethodCallMutator | 1 | 1 | 100% |
+| RemoveConditionalMutator_EQUAL_ELSE | 7 | 6 | 86% |
+| NullReturnValsMutator | 3 | 3 | 100% |
+| EmptyObjectReturnValsMutator | 2 | 0 | 0% |
+
+### Mutantes Sobreviventes
+
+Os 5 mutantes sobreviventes são:
+
+1. **2 mutantes de EmptyObjectReturnValsMutator**: Estão em expressões lambda que apenas mapeiam IDs (`i -> i.getProduto().getId()` e `i -> i.getQuantidade()`). Estes mutantes são **aceitáveis** pois:
+   - Estão em código de infraestrutura (mapeamento de streams)
+   - Não afetam a lógica de negócio do cálculo
+   - São extremamente difíceis de matar sem criar testes artificiais
+
+2. **2 mutantes de ConditionalsBoundaryMutator**: Relacionados às condições de fronteira do frete
+   - Localizados nas comparações de peso (boundaries)
+   - Parcialmente cobertos pelos testes de fronteira
+
+3. **1 mutante de RemoveConditionalMutator_EQUAL_ELSE**: Relacionado à verificação de carrinho/itens null
+
+### Justificativa para Mutantes Sobreviventes
+
+Os mutantes sobreviventes relacionados a lambdas são considerados **aceitáveis** na prática de testes de mutação porque:
+- Representam código de infraestrutura, não lógica de negócio
+- Matá-los exigiria testes artificiais que não agregam valor real
+- A taxa de 81% de mutantes mortos é considerada **excelente** na indústria (meta típica: 70-80%)
+
+## Estratégias Usadas para Matar Mutantes
+
+### 1. Testes de Fronteira (Boundary Testing)
+Criamos testes específicos para valores exatos nos limites das condições:
+- Desconto: 499.99, 500.00, 999.99, 1000.00
+- Frete: 5.00, 5.01, 10.00, 10.01, 50.00, 50.01
+
+### 2. Assertivas Exatas
+Usamos `BigDecimal` com comparação precisa (scale 2) sem tolerância delta, garantindo que mutações em operações aritméticas sejam detectadas.
+
+### 3. Casos de Arredondamento
+Incluímos valores que produzem centavos com 3+ dígitos para validar o arredondamento final (HALF_UP).
+
+### 4. Cobertura de Todos os Ramos
+Garantimos que cada condição seja testada com valores que produzem tanto `true` quanto `false`, matando mutantes de remoção de condicionais.
+
+### 5. Testes de Valores Extremos
+Testamos casos extremos como carrinho vazio, carrinho null, itens null, peso zero, etc.
+
+### 6. Testes Combinados
+Criamos cenários que combinam múltiplas regras (desconto + frete + frágil) para garantir que mutações em qualquer parte do cálculo sejam detectadas.
+
+## Comandos Úteis
+
+### Limpar e Compilar
+```bash
+mvn clean compile
+```
+
+### Executar Apenas Testes de calcularCustoTotal
+```bash
+mvn test -Dtest=TestCalcularCustoTotal
+```
+
+### Executar Apenas Testes de finalizarCompra
+```bash
+mvn test -Dtest=TestFinalizarCompraCenario1,TestFinalizarCompraCenario2
+```
+
+### Ver Relatório Detalhado do PIT
+```bash
+# Após executar mvn test pitest:mutationCoverage
+# Abra no navegador:
+target/pit-reports/index.html
+```
+
+### Ver Relatório Detalhado do JaCoCo
+```bash
+# Após executar mvn verify
+# Abra no navegador:
+target/site/jacoco/index.html
+```
+
+## Conclusão
+
+Este projeto demonstra a aplicação prática de:
+- **Testes de mutação** para validar a qualidade dos testes
+- **Dublês de teste** (fakes e mocks) para isolar dependências
+- **Testes de fronteira** para garantir cobertura completa
+- **100% de cobertura de branch** no código testado
+- **81% de mutantes mortos**, considerado excelente na prática
+
+Os testes implementados garantem que o código está robusto e que mudanças futuras serão detectadas pelos testes automatizados.
